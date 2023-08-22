@@ -1,0 +1,33 @@
+---
+- name: Configure Nginx Virtual Host
+  hosts: localhost
+  become: true  # Run tasks with root privileges
+
+  tasks:
+    - name: Create a directory for the web application
+      file:
+        path: /var/www/chad-rsaweb
+        state: directory
+        owner: www-data
+        group: www-data
+
+    - name: Create Nginx virtual host configuration
+      template:
+        src: nginx_virtual_host
+        dest: /etc/nginx/sites-available/chad-rsaweb
+      notify:
+        - Reload Nginx
+
+    - name: Enable Nginx virtual host
+      file:
+        src: /etc/nginx/sites-available/chad-rsaweb
+        dest: /etc/nginx/sites-enabled/chad-rsaweb
+        state: link
+      notify:
+        - Reload Nginx
+
+  handlers:
+    - name: Reload Nginx
+      systemd:
+        name: nginx
+        state: restarted

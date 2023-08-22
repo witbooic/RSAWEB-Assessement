@@ -1,6 +1,6 @@
 ---
 - name: Install and Configure Nginx
-  hosts: your_ubuntu_server
+  hosts: Chad-RSAWEB
   become: true  # Run tasks with root privileges
 
   tasks:
@@ -21,7 +21,7 @@
 
     - name: Copy custom Nginx configuration
       template:
-        src: nginx.conf.j2
+        src: nginx.conf.2
         dest: /etc/nginx/nginx.conf
       notify:
         - Reload Nginx

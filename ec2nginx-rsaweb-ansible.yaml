@@ -1,6 +1,6 @@
 ---
-- name: Install and Configure Nginx
-  hosts: Chad-RSAWEB
+- name: Install Nginx
+  hosts: localhost
   become: true  # Run tasks with root privileges
 
   tasks:
@@ -18,16 +18,3 @@
         name: nginx
         enabled: yes
         state: started
-
-    - name: Copy custom Nginx configuration
-      template:
-        src: nginx.conf.2
-        dest: /etc/nginx/nginx.conf
-      notify:
-        - Reload Nginx
-
-  handlers:
-    - name: Reload Nginx
-      systemd:
-        name: nginx
-        state: restarted
